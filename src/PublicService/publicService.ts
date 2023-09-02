@@ -10,8 +10,13 @@ export class PublicService extends Service {
 
     // TODO public async GetAttributeDefinitions(request)
 
-    // TODO public async GetCategories(request)
-
+    public async GetCategories(): Promise<GetCategoriesResult> {
+        const result = await this.callApiMethod<GetCategoriesResult>(
+            "GetCategories",
+            "GetCategoriesResult",
+        );
+        return result;
+    }
     // TODO public async GetCounties(request)
 
     // TODO public async GetExpoItemTypes(request)
@@ -36,19 +41,16 @@ export class PublicService extends Service {
     }
 
     /**
-     *
      * @deprecated
      */
     // TODO public async GetPaymentTypes(request)
 
     /**
-     *
      * @deprecated
      */
     // TODO public async GetSearchResult(request)
 
     /**
-     *
      * @deprecated
      */
     public async GetSearchResultAdvanced(filter?: GetSearchResultAdvancedRequest) {
@@ -61,19 +63,22 @@ export class PublicService extends Service {
 
     // TODO public async GetSearchResultAdvancedXml(request)
 
-    // TODO public async GetSellerItems(request)
+    public async GetSellerItems(request: GetSellerItemsRequest) {
+        const result = await this.callApiMethod<GetSellerItemsResult>("GetSellerItems", "GetSellerItemsResult", request);
+        return checkTypes(result, getSellerItemsResultCodec);
+    }
 
     // TODO public async GetSellerItemsQuickInfo(request)
 
     // TODO public async GetShippingProducts(request)
 
-    /**
-     *
-     * @deprecated
-     */
-    // TODO public async GetShippingTypes(request)
+    // TODO public async GetShippingOptions(request)
 
     // TODO public async GetUserByAlias(request)
+    public async GetUserByAlias(request: GetUserByAliasRequest): Promise<GetUserByAliasResult> {
+        const result = await this.callApiMethod<GetUserByAliasResult>("GetUserByAlias", "GetUserByAliasResult", request);
+        return result;
+    }
 }
 
 type GetItemRequest = {
@@ -192,6 +197,8 @@ type GetSearchResultAdvancedRequest = {
         ZipCode?: string;
         CountyId?: number;
         Alias?: string;
+        Brands?: string[];
+        Attributes?: any;
         OrderBy?:
             | "EndDateAscending"
             | "EndDateDescending"
@@ -206,7 +213,36 @@ type GetSearchResultAdvancedRequest = {
         PageNumber?: number;
         ItemConditon?: "All" | "OnlyNew" | "OnlySecondHand";
         SellerType?: "All" | "OnlyPrivate" | "OnlyBusiness";
+        // Missing fields based on Tradera API documentation
+        ItemTypes?: string[]; // Array of item types
+        ItemStatuses?: string[]; // Array of item statuses
+        IncludeEndedItems?: boolean;
+        IncludeItemsWithNoBids?: boolean;
+        IncludeItemsWithReserveNotMet?: boolean;
+        IncludeItemsWithNoReserve?: boolean;
+        IncludeItemsWithBuyNow?: boolean;
+        IncludeItemsWithNoBuyNow?: boolean;
+        IncludeItemsWithNoThumbnail?: boolean;
+        IncludeItemsWithThumbnail?: boolean;
+        IncludeItemsWithNoAcceptedPayments?: boolean;
+        IncludeItemsWithAcceptedPayments?: boolean;
+        IncludeItemsWithNoShippingOptions?: boolean;
+        IncludeItemsWithShippingOptions?: boolean;
     };
+};
+
+type CategoryAttributes = {
+    Id: number;
+    Name: string;
+};
+
+type Category = {
+  attributes: CategoryAttributes;
+  Category?: Category[] | CategoryAttributes[];
+};
+
+type GetCategoriesResult = {
+  Category: Category[];
 };
 
 type GetItemResult = TypeOf<typeof getItemResultCodec>;
@@ -215,11 +251,13 @@ const getItemResultCodec = type({
     AcceptsPickup: boolean,
     Bold: boolean,
     BuyItNowPrice: undefinable(number),
-    Buyers: array(type({
-        Id: number,
-        Alias: string,
-        TotalRating: number,
-    })),
+    Buyers: array(
+        type({
+            Id: number,
+            Alias: string,
+            TotalRating: number,
+        }),
+    ),
     CategoryId: number,
     EndDate: date,
     FeaturedItem: boolean,
@@ -239,11 +277,13 @@ const getItemResultCodec = type({
     }),
     LongDescription: string,
     MaxBid: number,
-    MaxBidder: nullable(type({
-        Id: number,
-        Alias: string,
-        TotalRating: number,
-    })),
+    MaxBidder: nullable(
+        type({
+            Id: number,
+            Alias: string,
+            TotalRating: number,
+        }),
+    ),
     NextBid: number,
     OpeningBid: number,
     OwnReferences: nullable(array(string)),
@@ -262,12 +302,14 @@ const getItemResultCodec = type({
         TotalRating: number,
     }),
     ShippingCondition: string,
-    ShippingOptions: array(type({
-        ShippingOptionId: number,
-        Cost: number,
-        ShippingWeight: undefinable(number),
-        ShippingProductId: undefinable(number),
-    })),
+    ShippingOptions: array(
+        type({
+            ShippingOptionId: number,
+            Cost: number,
+            ShippingWeight: undefinable(number),
+            ShippingProductId: undefinable(number),
+        }),
+    ),
     ShortDescription: string,
     StartDate: date,
     StartQuantity: number,
@@ -280,4 +322,180 @@ const getItemResultCodec = type({
     ThumbnailLink: string,
     TotalBids: number,
     VAT: undefinable(number),
-})
+});
+
+type GetSellerItemsRequest = {
+  sellerId: number;
+  pageNumber?: number;
+  pageSize?: number;
+  sort?: string;
+  filter?: string;
+};
+
+type GetSellerItemsResult = {
+  TotalNumberOfItems: number;
+  TotalNumberOfPages: number;
+  Items: {
+    ItemId: number;
+    Title: string;
+    Description: string;
+    StartPrice: number;
+    Currency: string;
+    CategoryId: number;
+    CategoryName: string;
+    StartTime: Date;
+    EndTime: Date;
+    SellerId: number;
+    SellerName: string;
+    SellerEmail: string;
+    SellerRating: number;
+    SellerRatingCount: number;
+    SellerCountry: string;
+    SellerCounty: string;
+    SellerCity: string;
+    SellerZipCode: string;
+    SellerAddress: string;
+    SellerPhone: string;
+    SellerMobile: string;
+    SellerFax: string;
+    SellerUrl: string;
+    SellerCompany: string;
+    SellerInfo: string;
+    BidCount: number;
+    HighBidderId: number;
+    HighBidderName: string;
+    HighBidderEmail: string;
+    HighBidderRating: number;
+    HighBidderRatingCount: number;
+    HighBidderCountry: string;
+    HighBidderCounty: string;
+    HighBidderCity: string;
+    HighBidderZipCode: string;
+    HighBidderAddress: string;
+    HighBidderPhone: string;
+    HighBidderMobile: string;
+    HighBidderFax: string;
+    HighBidderUrl: string;
+    HighBidderCompany: string;
+    HighBidderInfo: string;
+    BuyNowPrice: number;
+    BuyNowCurrency: string;
+    PictureUrl: string;
+    PictureWidth: number;
+    PictureHeight: number;
+    PictureThumbUrl: string;
+    PictureThumbWidth: number;
+    PictureThumbHeight: number;
+    IsBuyNow: boolean;
+    IsAuction: boolean;
+    IsFixedPrice: boolean;
+    IsNew: boolean;
+    IsCharity: boolean;
+    IsBuyerRegistred: boolean;
+    IsSellerRegistred: boolean;
+    IsPrivateAuction: boolean;
+    IsCompanySale: boolean;
+    IsPowerSeller: boolean;
+    IsAdult: boolean;
+    IsVerifiedSeller: boolean;
+    IsAuthenticated: boolean;
+    IsAuthenticatedBuyer: boolean;
+    IsAuthenticatedSeller: boolean;
+    IsAuthenticatedBidder: boolean;
+  }[];
+};
+
+const sellerItemCodec = type({
+  ItemId: number,
+  Title: string,
+  Description: string,
+  StartPrice: number,
+  Currency: string,
+  CategoryId: number,
+  CategoryName: string,
+  StartTime: string,
+  EndTime: string,
+  SellerId: number,
+  SellerName: string,
+  SellerEmail: string,
+  SellerRating: number,
+  SellerRatingCount: number,
+  SellerCountry: string,
+  SellerCounty: string,
+  SellerCity: string,
+  SellerZipCode: string,
+  SellerAddress: string,
+  SellerPhone: string,
+  SellerMobile: string,
+  SellerFax: string,
+  SellerUrl: string,
+  SellerCompany: string,
+  SellerInfo: string,
+  BidCount: number,
+  HighBidderId: number,
+  HighBidderName: string,
+  HighBidderEmail: string,
+  HighBidderRating: number,
+  HighBidderRatingCount: number,
+  HighBidderCountry: string,
+  HighBidderCounty: string,
+  HighBidderCity: string,
+  HighBidderZipCode: string,
+  HighBidderAddress: string,
+  HighBidderPhone: string,
+  HighBidderMobile: string,
+  HighBidderFax: string,
+  HighBidderUrl: string,
+  HighBidderCompany: string,
+  HighBidderInfo: string,
+  BuyNowPrice: number,
+  BuyNowCurrency: string,
+  PictureUrl: string,
+  PictureWidth: number,
+  PictureHeight: number,
+  PictureThumbUrl: string,
+  PictureThumbWidth: number,
+  PictureThumbHeight: number,
+  IsBuyNow: boolean,
+  IsAuction: boolean,
+  IsFixedPrice: boolean,
+  IsNew: boolean,
+  IsCharity: boolean,
+  IsBuyerRegistred: boolean,
+  IsSellerRegistred: boolean,
+  IsPrivateAuction: boolean,
+  IsCompanySale: boolean,
+  IsPowerSeller: boolean,
+  IsAdult: boolean,
+  IsVerifiedSeller: boolean,
+  IsAuthenticated: boolean,
+  IsAuthenticatedBuyer: boolean,
+  IsAuthenticatedSeller: boolean,
+});
+
+const getSellerItemsResultCodec = type({
+  TotalNumberOfItems: number,
+  TotalNumberOfPages: number,
+  Items: array(sellerItemCodec),
+});
+
+type GetUserByAliasRequest = {
+    alias: string;
+};
+
+type GetUserByAliasResult = {
+    Id: number;
+    Alias: string;
+    FirstName: string;
+    LastName: string;
+    Email: string;
+    TotalRating: number;
+    PhoneNumber: string;
+    MobilePhoneNumber: string;
+    Address: string;
+    ZipCode: string;
+    City: string;
+    CountryName: string;
+    PersonalNumber: string;
+    TransactionId: number;
+}
