@@ -1,6 +1,6 @@
 import { array, boolean, keyof, number, string, type, TypeOf } from "io-ts";
 import { date } from "io-ts-types";
-import { checkTypes, undefinable } from "../checkTypes";
+import { undefinable } from "../checkTypes";
 import { Service } from "../service";
 
 export class SearchService extends Service {
@@ -12,12 +12,7 @@ export class SearchService extends Service {
             "SearchAdvancedResult",
             request,
         );
-        if (result.Errors && result.Errors.length > 0) {
-            throw new Error(
-                result.Errors.map(error => `${error.Code}: ${error.Message}.`).join(" "),
-            );
-        }
-        return checkTypes(result, searchAdvancedResultCodec);
+        return result;
     }
 
     // TODO public async SearchByFixedCriteria(request)
