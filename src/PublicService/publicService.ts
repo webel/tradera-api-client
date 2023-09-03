@@ -64,7 +64,11 @@ export class PublicService extends Service {
     // TODO public async GetSearchResultAdvancedXml(request)
 
     public async GetSellerItems(request: GetSellerItemsRequest) {
-        const result = await this.callApiMethod<GetSellerItemsResult>("GetSellerItems", "GetSellerItemsResult", request);
+        const result = await this.callApiMethod<GetSellerItemsResult>(
+            "GetSellerItems",
+            "GetSellerItemsResult",
+            request,
+        );
         return checkTypes(result, getSellerItemsResultCodec);
     }
 
@@ -76,7 +80,11 @@ export class PublicService extends Service {
 
     // TODO public async GetUserByAlias(request)
     public async GetUserByAlias(request: GetUserByAliasRequest): Promise<GetUserByAliasResult> {
-        const result = await this.callApiMethod<GetUserByAliasResult>("GetUserByAlias", "GetUserByAliasResult", request);
+        const result = await this.callApiMethod<GetUserByAliasResult>(
+            "GetUserByAlias",
+            "GetUserByAliasResult",
+            request,
+        );
         return result;
     }
 }
@@ -237,12 +245,12 @@ type CategoryAttributes = {
 };
 
 type Category = {
-  attributes: CategoryAttributes;
-  Category?: Category[] | CategoryAttributes[];
+    attributes: CategoryAttributes;
+    Category?: Category[] | CategoryAttributes[];
 };
 
 type GetCategoriesResult = {
-  Category: Category[];
+    Category: Category[];
 };
 
 type GetItemResult = TypeOf<typeof getItemResultCodec>;
@@ -325,158 +333,158 @@ const getItemResultCodec = type({
 });
 
 type GetSellerItemsRequest = {
-  sellerId: number;
-  pageNumber?: number;
-  pageSize?: number;
-  sort?: string;
-  filter?: string;
+    sellerId: number;
+    pageNumber?: number;
+    pageSize?: number;
+    sort?: string;
+    filter?: string;
 };
 
 type GetSellerItemsResult = {
-  TotalNumberOfItems: number;
-  TotalNumberOfPages: number;
-  Items: {
-    ItemId: number;
-    Title: string;
-    Description: string;
-    StartPrice: number;
-    Currency: string;
-    CategoryId: number;
-    CategoryName: string;
-    StartTime: Date;
-    EndTime: Date;
-    SellerId: number;
-    SellerName: string;
-    SellerEmail: string;
-    SellerRating: number;
-    SellerRatingCount: number;
-    SellerCountry: string;
-    SellerCounty: string;
-    SellerCity: string;
-    SellerZipCode: string;
-    SellerAddress: string;
-    SellerPhone: string;
-    SellerMobile: string;
-    SellerFax: string;
-    SellerUrl: string;
-    SellerCompany: string;
-    SellerInfo: string;
-    BidCount: number;
-    HighBidderId: number;
-    HighBidderName: string;
-    HighBidderEmail: string;
-    HighBidderRating: number;
-    HighBidderRatingCount: number;
-    HighBidderCountry: string;
-    HighBidderCounty: string;
-    HighBidderCity: string;
-    HighBidderZipCode: string;
-    HighBidderAddress: string;
-    HighBidderPhone: string;
-    HighBidderMobile: string;
-    HighBidderFax: string;
-    HighBidderUrl: string;
-    HighBidderCompany: string;
-    HighBidderInfo: string;
-    BuyNowPrice: number;
-    BuyNowCurrency: string;
-    PictureUrl: string;
-    PictureWidth: number;
-    PictureHeight: number;
-    PictureThumbUrl: string;
-    PictureThumbWidth: number;
-    PictureThumbHeight: number;
-    IsBuyNow: boolean;
-    IsAuction: boolean;
-    IsFixedPrice: boolean;
-    IsNew: boolean;
-    IsCharity: boolean;
-    IsBuyerRegistred: boolean;
-    IsSellerRegistred: boolean;
-    IsPrivateAuction: boolean;
-    IsCompanySale: boolean;
-    IsPowerSeller: boolean;
-    IsAdult: boolean;
-    IsVerifiedSeller: boolean;
-    IsAuthenticated: boolean;
-    IsAuthenticatedBuyer: boolean;
-    IsAuthenticatedSeller: boolean;
-    IsAuthenticatedBidder: boolean;
-  }[];
+    TotalNumberOfItems: number;
+    TotalNumberOfPages: number;
+    Items: {
+        ItemId: number;
+        Title: string;
+        Description: string;
+        StartPrice: number;
+        Currency: string;
+        CategoryId: number;
+        CategoryName: string;
+        StartTime: Date;
+        EndTime: Date;
+        SellerId: number;
+        SellerName: string;
+        SellerEmail: string;
+        SellerRating: number;
+        SellerRatingCount: number;
+        SellerCountry: string;
+        SellerCounty: string;
+        SellerCity: string;
+        SellerZipCode: string;
+        SellerAddress: string;
+        SellerPhone: string;
+        SellerMobile: string;
+        SellerFax: string;
+        SellerUrl: string;
+        SellerCompany: string;
+        SellerInfo: string;
+        BidCount: number;
+        HighBidderId: number;
+        HighBidderName: string;
+        HighBidderEmail: string;
+        HighBidderRating: number;
+        HighBidderRatingCount: number;
+        HighBidderCountry: string;
+        HighBidderCounty: string;
+        HighBidderCity: string;
+        HighBidderZipCode: string;
+        HighBidderAddress: string;
+        HighBidderPhone: string;
+        HighBidderMobile: string;
+        HighBidderFax: string;
+        HighBidderUrl: string;
+        HighBidderCompany: string;
+        HighBidderInfo: string;
+        BuyNowPrice: number;
+        BuyNowCurrency: string;
+        PictureUrl: string;
+        PictureWidth: number;
+        PictureHeight: number;
+        PictureThumbUrl: string;
+        PictureThumbWidth: number;
+        PictureThumbHeight: number;
+        IsBuyNow: boolean;
+        IsAuction: boolean;
+        IsFixedPrice: boolean;
+        IsNew: boolean;
+        IsCharity: boolean;
+        IsBuyerRegistred: boolean;
+        IsSellerRegistred: boolean;
+        IsPrivateAuction: boolean;
+        IsCompanySale: boolean;
+        IsPowerSeller: boolean;
+        IsAdult: boolean;
+        IsVerifiedSeller: boolean;
+        IsAuthenticated: boolean;
+        IsAuthenticatedBuyer: boolean;
+        IsAuthenticatedSeller: boolean;
+        IsAuthenticatedBidder: boolean;
+    }[];
 };
 
 const sellerItemCodec = type({
-  ItemId: number,
-  Title: string,
-  Description: string,
-  StartPrice: number,
-  Currency: string,
-  CategoryId: number,
-  CategoryName: string,
-  StartTime: string,
-  EndTime: string,
-  SellerId: number,
-  SellerName: string,
-  SellerEmail: string,
-  SellerRating: number,
-  SellerRatingCount: number,
-  SellerCountry: string,
-  SellerCounty: string,
-  SellerCity: string,
-  SellerZipCode: string,
-  SellerAddress: string,
-  SellerPhone: string,
-  SellerMobile: string,
-  SellerFax: string,
-  SellerUrl: string,
-  SellerCompany: string,
-  SellerInfo: string,
-  BidCount: number,
-  HighBidderId: number,
-  HighBidderName: string,
-  HighBidderEmail: string,
-  HighBidderRating: number,
-  HighBidderRatingCount: number,
-  HighBidderCountry: string,
-  HighBidderCounty: string,
-  HighBidderCity: string,
-  HighBidderZipCode: string,
-  HighBidderAddress: string,
-  HighBidderPhone: string,
-  HighBidderMobile: string,
-  HighBidderFax: string,
-  HighBidderUrl: string,
-  HighBidderCompany: string,
-  HighBidderInfo: string,
-  BuyNowPrice: number,
-  BuyNowCurrency: string,
-  PictureUrl: string,
-  PictureWidth: number,
-  PictureHeight: number,
-  PictureThumbUrl: string,
-  PictureThumbWidth: number,
-  PictureThumbHeight: number,
-  IsBuyNow: boolean,
-  IsAuction: boolean,
-  IsFixedPrice: boolean,
-  IsNew: boolean,
-  IsCharity: boolean,
-  IsBuyerRegistred: boolean,
-  IsSellerRegistred: boolean,
-  IsPrivateAuction: boolean,
-  IsCompanySale: boolean,
-  IsPowerSeller: boolean,
-  IsAdult: boolean,
-  IsVerifiedSeller: boolean,
-  IsAuthenticated: boolean,
-  IsAuthenticatedBuyer: boolean,
-  IsAuthenticatedSeller: boolean,
+    ItemId: number,
+    Title: string,
+    Description: string,
+    StartPrice: number,
+    Currency: string,
+    CategoryId: number,
+    CategoryName: string,
+    StartTime: string,
+    EndTime: string,
+    SellerId: number,
+    SellerName: string,
+    SellerEmail: string,
+    SellerRating: number,
+    SellerRatingCount: number,
+    SellerCountry: string,
+    SellerCounty: string,
+    SellerCity: string,
+    SellerZipCode: string,
+    SellerAddress: string,
+    SellerPhone: string,
+    SellerMobile: string,
+    SellerFax: string,
+    SellerUrl: string,
+    SellerCompany: string,
+    SellerInfo: string,
+    BidCount: number,
+    HighBidderId: number,
+    HighBidderName: string,
+    HighBidderEmail: string,
+    HighBidderRating: number,
+    HighBidderRatingCount: number,
+    HighBidderCountry: string,
+    HighBidderCounty: string,
+    HighBidderCity: string,
+    HighBidderZipCode: string,
+    HighBidderAddress: string,
+    HighBidderPhone: string,
+    HighBidderMobile: string,
+    HighBidderFax: string,
+    HighBidderUrl: string,
+    HighBidderCompany: string,
+    HighBidderInfo: string,
+    BuyNowPrice: number,
+    BuyNowCurrency: string,
+    PictureUrl: string,
+    PictureWidth: number,
+    PictureHeight: number,
+    PictureThumbUrl: string,
+    PictureThumbWidth: number,
+    PictureThumbHeight: number,
+    IsBuyNow: boolean,
+    IsAuction: boolean,
+    IsFixedPrice: boolean,
+    IsNew: boolean,
+    IsCharity: boolean,
+    IsBuyerRegistred: boolean,
+    IsSellerRegistred: boolean,
+    IsPrivateAuction: boolean,
+    IsCompanySale: boolean,
+    IsPowerSeller: boolean,
+    IsAdult: boolean,
+    IsVerifiedSeller: boolean,
+    IsAuthenticated: boolean,
+    IsAuthenticatedBuyer: boolean,
+    IsAuthenticatedSeller: boolean,
 });
 
 const getSellerItemsResultCodec = type({
-  TotalNumberOfItems: number,
-  TotalNumberOfPages: number,
-  Items: array(sellerItemCodec),
+    TotalNumberOfItems: number,
+    TotalNumberOfPages: number,
+    Items: array(sellerItemCodec),
 });
 
 type GetUserByAliasRequest = {
@@ -498,4 +506,4 @@ type GetUserByAliasResult = {
     CountryName: string;
     PersonalNumber: string;
     TransactionId: number;
-}
+};

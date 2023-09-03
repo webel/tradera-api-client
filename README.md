@@ -1,7 +1,15 @@
+# Fork of Tradera API client
+
+-   exposes a few more SOAP endpoints
+-   transpiles to ESM instead of common
+
+---
+
 # Tradera API client
 
-This package enables a user to use the official Tradera API from withing their JavaScript/TypeScript projects.
-**At the moment, only a subset of the *PublicService* and *SearchService* has been implemented**.
+This package enables a user to use the official Tradera API from withing their
+JavaScript/TypeScript projects. **At the moment, only a subset of the
+_PublicService_ and _SearchService_ has been implemented**.
 
 ## Installation
 
@@ -28,7 +36,11 @@ try {
 
 ### Calling API methods
 
-The Tradera API is divided into six SOAP services: `BuyerService`, `ListingService`, `OrderService`, `PublicService`, `RestrictedService` and `SearchService`. These are exposed through instance variables of TraderaApiClient. For instance, this is how you call `GetOfficialTime` to retrieve the time from Tradera:
+The Tradera API is divided into six SOAP services: `BuyerService`,
+`ListingService`, `OrderService`, `PublicService`, `RestrictedService` and
+`SearchService`. These are exposed through instance variables of
+TraderaApiClient. For instance, this is how you call `GetOfficialTime` to
+retrieve the time from Tradera:
 
 ```
 try {

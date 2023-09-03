@@ -60,30 +60,36 @@ type SearchAdvancedRequest = {
 
 type SearchAdvancedResult = TypeOf<typeof searchAdvancedResultCodec>;
 const searchAdvancedResultCodec = type({
-    Errors: undefinable(array(type({
-        Code: string,
-        Message: string,
-    }))),
-    Items: array(type({
-        CategoryId: number,
-        EndDate: date,
-        HasBids: boolean,
-        Id: number,
-        IsEnded: boolean,
-        ItemType: keyof({
-            Auction: null,
-            AuctionWithBuyItNow: null,
-            PureBuyItNow: null,
-            ShopItem: null,
+    Errors: undefinable(
+        array(
+            type({
+                Code: string,
+                Message: string,
+            }),
+        ),
+    ),
+    Items: array(
+        type({
+            CategoryId: number,
+            EndDate: date,
+            HasBids: boolean,
+            Id: number,
+            IsEnded: boolean,
+            ItemType: keyof({
+                Auction: null,
+                AuctionWithBuyItNow: null,
+                PureBuyItNow: null,
+                ShopItem: null,
+            }),
+            MaxBid: number,
+            NextBid: number,
+            SellerAlias: string,
+            SellerDsrAverage: number,
+            SellerId: number,
+            ShortDescription: string,
+            ThumbnailLink: string,
         }),
-        MaxBid: number,
-        NextBid: number,
-        SellerAlias: string,
-        SellerDsrAverage: number,
-        SellerId: number,
-        ShortDescription: string,
-        ThumbnailLink: string,
-    })),
+    ),
     TotalNumberOfItems: number,
     TotalNumberOfPages: number,
 });
